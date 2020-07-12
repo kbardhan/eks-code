@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: mywe2
+ labels: 
+   env: prod
+spec:
+ selector:
+   matchLabels:
+       env: prod
+ strategy:
+    type: Recreate
+ template:
+   metadata:
+     labels:
+       env: prod
+   spec:
+      volumes:
+      - name: webvol1
+        persistentVolumeClaim:
+          claimName: kbpvc
+      containers:
+      - image: vimal13/apache-webserver-php
+        name: firstos
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: webvol1
